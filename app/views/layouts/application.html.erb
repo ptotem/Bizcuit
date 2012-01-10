@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Bizcuit</title>
+  <%= stylesheet_link_tag "application" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+  <script type="text/javascript">
+      $(function() {
+          $('a.glossary').pageslide({direction:"right"});
+      });
+  </script>
+  <%= yield(:head) %>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="fill">
+    <div class="container">
+      <a class="brand" href="/">Bizcuit</a>
+
+      <ul class="nav">
+        <% unless request.fullpath=="/" or request.fullpath=="/navigator" %>
+            <li><%= link_to "Home", '/navigator', :style => "color:black;background:orange;" %></li>
+        <% end %>
+
+        <!--<li><a href="/forums" style="color:white;background:#2a8ece">Forums</a></li>-->
+        <!--<li><a href="#contact" style="color:white;">Contact</a></li>-->
+      </ul>
+
+      <% if !user_signed_in? %>
+          <%= form_for(resource, :as => resource_name, :url => session_path(resource_name), :html => {:class => "pull-right"}) do |f| %>
+              <%= f.text_field :username, :class=>"input-small", :placeholder=>"Team Name" %>
+              <%= f.password_field :password, :class=>"input-small", :placeholder=>"Password" %>
+              <%= f.submit "Sign In", :class=>"primary btn" %>
+          <% end %>
+      <% else %>
+          <div class="pull-right" style="margin-top: 10px;color:white;">
+            <%= current_user.username %>
+            <span class="nav_link">
+              | <%= link_to "Sign out", main_app.destroy_user_session_path, :method => :delete, :style=>"color:white;" %>
+            </span>
+          </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="page-header" style="height:170px">
+  </div>
+  <div style="position:absolute;margin-top: -170px">
+    <h1><%= yield(:page_header) %></h1>
+  </div>
+
+  <div class="content">
+    <%= js extend_gritter :position => :bottom_right %>
+    <%= js add_gritter(flash[:notice], :image => :success, :title => "Notice", :sticky => false, :time => 2000) %>
+    <%= js add_gritter(flash[:alert], :image => :warning, :title => "Alert!", :sticky => false, :time => 2000) %>
+    <%= yield %>
+  </div>
+  <footer>
+    <!--<p style="color:white;">A Ptotem Simulation 2011</p>-->
+  </footer>
+</div>
+<%= javascript_include_tag "/assets/exclusions/jquery.pageslide" %>
+
+</body>
+</html>

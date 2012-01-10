@@ -1,0 +1,362 @@
+
+DECISION MANAGEMENT
+
+Every Player starts off with a certain amount of money as net worth. 
+
+------
+Startup Decisions
+------
+
+ Biscuit Type : Select from [ Single, Filled, Cookie ]
+ Biscuit Flavor : Select from [ Savoury, Plain, Nutty, Fruity, Chocolate ]
+ Addon : Select from [ Cream, Topping, Health ]
+ Packaging : Select from [ Paper, Foil, Tin ]
+ Biscuits per packet B : Slider Select [6, 12, 24]
+ Brand Name : Text Field
+
+ While selecting, Player gets to see the Cost Price of a packet of Biscuit
+
+------
+Round Decisions
+------
+
+ Debt Funding : Slider Select ( Player can borrow upto his net worth at 10% per annum and above that at 20% per annum to a maximum of 5 times his starting net worth)
+ Factory : Multi-Select from [Small, Medium, Large] + Quantity of each : Slider Select (1..3)
+
+ Sales Estimates given to factories: Slider Select ( Player can produce up to capacity of the factories he owns)
+
+ Price : Slider Select ( Price cannot go below Rs.3 and cannot go above Rs. 100 )
+ Markets : Multi-Select from [ Metros, Non-Metros, Rural ]
+ Employee Incentives : Multi-Select from [ Salary Hike, Training Programs, Leave Encashment, Staff Welfare Events, Annual Bonus ]
+ Channel Incentives : Multi-Select from [ Higher Commissions, Training Programs, Diwali Gifts, Offsite, Trade Promotions ]
+ Advertising : Multi-Select from [ Television, Radio, Hoardings, Newspaper, Sponsorships ] + Size of Each : Select from [Small, Medium, Large]
+
+ Change Biscuit Type :
+ Player pays a certain amount of cost as Research and Development to get an opportunity to change the Biscuit Type. Cannot change Brand Name.
+
+ Player gets to see his Profit and Loss Statement for the last round and estimates for the coming round
+ Player gets to see expected Economic Scenario
+
+_____________________________________________________________________________
+
+CALCULATION MANAGEMENT - SALES
+
+------
+Demography for the simulation (Input by Admin)
+------
+
+K-Factor : Like to Interest Ratio (Should be < 1)
+X-Factor : Interest to Purchase Ratio (Should be < 1)
+Economic Scenario : [ Hyper-Growth, Growth, Stable, Recession, Hyper-Recession]
+Consumer Segments : [ Destitute, Cautious, Pragmatic, Aspirant, Spender ]
+Number of Households in a Consumer Segment in a Market: Number of Households[Market][Consumer Segment] : P[M][CS]
+Consumption of Biscuits per head in a Consumer Segment in an Economic Scenario: Consumption[Economic Scenario][Consumer Segment] : CQ[E][CS]
+Number of Kids per Household in a Consumer Segment in a Market: Number of Kids[Market][Consumer Segment] : NK[M][CS]
+Disposable Income per Household in a Consumer Segment in a Market: Disposable Income[Market][Consumer Segment] : DY[M][CS]
+Economic Multiplier to Disposable Income in a given economic scenario : EM[E]
+Market Multiplier to Disposable Income in a given market : MM[M]
+Potential Allocation of Disposable Income to Biscuits for a Consumer Segment : IA[CS]
+Percentage Liking a Biscuit in a Consumer Segment: L[TY][FL][AD][CS]
+Advertising Effect in a Consumer Segment for a campaign of size:
+        ( Advertising Effect[Consumer Segment][Campaign][Size] + Advertising Effect[Packaging]) : AE[CS][ADCAMP][ADSIZE]
+
+
+------
+Interested Population Calculation for a brand for a round
+------
+
+
+Interested Population: IP = Sum( IP[cM][CS] )
+
+
+///// 1 >>>>>   Loop through each market where player is present = cM
+
+    ///// 2 >>>>>   Loop through each Consumer Segment = cCS
+
+    Current Economic Scenario : cE = Set by Admin for the round
+    Household Population : P[cM][cCS]
+    Consumption of Biscuits : CQ[cE][cCS]
+    Number of Kids per household: NK[cM][cCS]
+    Percentage of Households purchasing the brand: Conv[cCS]
+
+
+        ------
+        Calculation of Conv[cCS]
+        ------
+
+        Brand Type : Ty
+        Brand Flavor : FL
+        Brand Addon : AD
+        Threshold Price (Maximum Price a household will be willing to pay for a packet of biscuits] : T[cCS][cE]
+
+                        DY[cM][cCS] x EM[cE] x MM[cM] x IA[cCS] x B
+        T[cCS][cE] =    ---------------------------------------
+                          (2 + 3 x NK[cM][cCS]) x CQ[cE][cCS]
+
+        If Price > T[cCS][cE]
+            Then Conv[cCS] = 0
+            Else Conv[cCS] = K-Factor x
+
+             ///// 3 >>>>>   Loop through each TY = cTY
+                ///// 4 >>>>>   Loop through each FL = CFL
+                    ///// 5 >>>>>   Loop through each AD = cAD
+
+                        If      (All three attributes match)
+                                + L[cTY][cFL][cAD][cCS]
+                        Elsif   (Any two attributes match)
+                                + L[cTY][cFL][cAD][cCS] x Random (30 % to 60%)
+                        Elsif   (Any one attribute matches)
+                                + L[cTY][cFL][cAD][cCS] x Random (0 % to 30%)
+                        Else
+                                + 0
+
+                    >>>>> 5 /////
+                >>>>> 4 /////
+             >>>>> 3 /////
+
+        ------
+        Calculation of ADVin[cCS]
+        ------
+
+        Advertising Index[Round] : ADVin[R]
+        ADVin[0] = 1
+        Round : cR
+
+        Total Advertising Effect = 0
+
+        Advertising Campaign and Packaging: ADCAMP[ADSIZE]
+
+        ///// 3 >>>>>   Loop through each Advertising Campaign and Packaging = cADCAMP
+            ///// 4 >>>>>   Loop through each Size = cADSIZE
+
+                   If cADCAMP[cADSIZE] == TRUE
+                        Advertising Effect += AE[cCS][cADCAMP][cADSIZE]
+            >>>>> 4 /////
+        >>>>> 3 /////
+
+        ADVin[cR] = MAX( 0, MIN (100, ADVin[cR-1] x ( 1+ Advertising Effect )))
+
+        ------
+        Calculation of Sales[cM][cS]
+        ------
+
+        IP[cM][cS] = P[cM][cCS] x Conv[cCS] x (2 + 3 x NK[cM][cCS]) x CQ[cE][cCS] x ADVin[cCS]
+
+    >>>>> 2 /////
+
+>>>>> 1 /////
+
+
+------
+Sales Calculation for a brand for a round
+------
+
+    Sales = IP x X-Factor x (1 + CHin/100)
+
+        ------
+        Calculation of CHin
+        ------
+
+        All brands = BR
+        Channel Index[Brand][Round] : CHin[BR][R]
+            CHin[BR][0] = 50
+        Round : cR
+        Player Brand : pBR
+        Channel Incentive : CINC[BR]
+
+        Total Incentive Value = 0
+
+        ///// 1 >>>>>   Loop through each Channel Incentive
+
+        If CINC[pBR] == FALSE AND CINC[BR].count(TRUE) == 0
+        		Incentive value = 0
+        Elsif CINC[pBR] == FALSE AND CINC[BR].count(TRUE) != 0
+        		Incentive value = -100/ ( CINC[BR] - CINC[BR].count(TRUE) )
+        Elsif CINC[pBR] == TRUE
+                Incentive value = 100/ CINC[BR].count(TRUE)
+
+        Total Incentive Value += Incentive Value
+
+        >>>>> 1 /////
+
+        CHin[pBR][cR] = MAX( 0, MIN (100, ROUND(1 + (Total Incentive Value /( Number of Incentives x 100))) x CHin[pBR][cR-1] ))
+
+_____________________________________________________________________________
+
+CALCULATION MANAGEMENT - COSTS
+
+------
+Cost Matrices for the simulation (Input by Admin)
+------
+
+Input Cost per biscuit for a type: IC[TY]
+Input Cost per biscuit for a flavor: IC[FL]
+Input Cost per biscuit for a topping: IC[TY]
+Input Cost per packet: IC[PKG]
+Logistics Cost per Market: LOG[M]
+Channel Incentive Cost: CHANC
+Advertising Cost by Size : ADCAMPC[SIZE]
+Inventory Ratio: Inv
+Effect for a Employee Incentive  : EEFF[INC]
+Cost for a Employee Incentive as % of Salary Cost  : EEFFC[INC]
+Employee Count by Factory Size: EMP[FAC]
+Average Salary: AVSAL
+
+------
+Cost Calculation for a brand for a round
+------
+
+Current Round: cR
+Biscuit type: cTY
+Biscuit flavor: cFL
+Biscuit topping: cTY
+Biscuit packaging: cPKG
+
+Inflation Index for a round : I[R]
+I[0] = 1
+I[cR] = (1 + Random(6% to 10%)) x I[cR-1]
+
+Cost Per Round =
+Manufacturing Cost
++ Employee Cost
++ Interest Cost
++ Logistics Cost
++ Channel Cost
++ Advertising Cost
+
+------
+Manufacturing Cost for a brand for a round
+------
+
+
+Manufacturing Cost = I[cR] x ( IC[cTY] + IC[cFL] + IC[cAD] + IC [cPKG] ) x Sales Estimates for the Current Round x B x (1 - Ein[cR]/100)
+
+    ------
+    Ein Calculation for a brand for a round
+    ------
+
+        Employee Index : Ein[cR]
+        Ein[0] = 0
+
+                ///// 1 >>>>>   Loop through each Employee Incentive = cINC
+
+                           If cINC == TRUE
+                                Employee Effect += EEFF[cINC]
+                >>>>> 1 /////
+
+                Ein[cR] = MIN (50, Ein[cR-1] x ( 1- Employee Effect ))
+
+------
+Employee Cost for a brand for a round
+------
+
+    Salary Cost =
+                    ///// 1 >>>>>   Loop through each Factory = cFAC
+
+                          += EMP[cFAC] x AVSAL
+
+                    >>>>> 1 /////
+    Staff Welfare Cost =
+
+                    ///// 1 >>>>>   Loop through each Employee Incentive = cINC
+
+                           If cINC == TRUE
+                           += EEFFC[cINC] x Salary Cost
+
+                    >>>>> 1 /////
+    Employee Cost = Salary Cost + Staff Welfare Cost
+
+
+------
+Interest Costs for a brand for a round
+------
+
+    Net Worth = Starting Capital + Sum of Profits made in the previous rounds
+
+    Interest Cost = Debt Amount  x 10%
+                    + (Debt Amount - Net Worth) x 10%          [If Debt Amount > Net Worth]
+
+------
+Other Costs for a brand for a round
+------
+
+
+Logistics Cost =
+
+        ///// 1 >>>>>   Loop through each Market = cM
+
+        If Present in the market then + I[cR] x  LOG[cM] else 0
+
+        >>>>> 1 /////
+
+Channel Cost = Sum of CHANC
+
+Advertising Cost =
+
+        ///// 1 >>>>>   Loop through each ADCAMP = cADCAMP
+            ///// 2 >>>>>   Loop through each Size = cSIZE
+
+            If Bought then + ADCAMPC[CSize] else 0
+
+            >>>>> 2 /////
+        >>>>> 1 /////
+
+_____________________________________________________________________________
+
+REPORTS MANAGEMENT
+
+------
+Startup Reports
+------
+
+Consumer Survey Report - Percentage of Population in a Segment who like each Type, Flavor, AddOn and Packaging
+Factory Data - Number of Employees and Capacity along with other descriptions
+Advertising Effect - Reach and Impact per Consumer Segment for each Media
+Channel Focus Group Study Report - Qualitative Report indicating the Channel Logic
+Employee Engagement Survey - Charts and Tidbits of Employee Comments
+
+------
+Financial Reports for a Round
+------
+
+Net Worth = Startup Capital + PAT from Previous Rounds
+Debt = Debt
+
+Sales [Market wise]
+- Manufacturing Cost
+- Employee Cost
+- Logistics Cost
+- Channel Cost
+- Advertising Cost
+= EBITDA
+- Interest Cost
+= PBT
+- Tax (= 30% x PBT)
+= PAT
+
+------
+Assessment Scorecard for a Player for a Round
+------
+
+Weightage: 10 :: Turnover Growth = 100 x (Turnover[cR]/Turnover[cR-1])-1 % :: Highest :: Rank Value
+Weightage: 10 :: EBITDA Margins = EBITDA/Turnover                          :: Highest :: Rank Value
+Weightage: 40 :: Net Worth                                                 :: Highest :: Rank Value
+Weightage: 10 :: Debt / EBITDA                                             :: Lowest :: Rank Value
+Weightage: 20 :: Brand Index = (Ein x CHin x ADin) / 50000                 :: Highest :: Rank Value
+Weightage: 10 :: Market Share = Sales / Total Sales across all             :: Highest :: Rank Value
+
+Total Player Score = (Sum of ( Weightage x Rank value ) )/100
+
+Rank Value for a Scoring Parameter =
+    If Player is Number 1 on that parameter, 100
+    If Player is Number 2 on that parameter, 70
+    If Player is Number 3 on that parameter, 50
+    If Player is lower than number 3, but in the top half, 20
+    If Player is in the lower half, 1
+
+------
+Market Data
+------
+Inflation
+Assessment Scorecards for all the players
+

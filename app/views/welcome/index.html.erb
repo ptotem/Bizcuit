@@ -1,0 +1,104 @@
+<%= content_for :head do %>
+    <script type="text/javascript">
+        $(function() {
+
+        })
+    </script>
+<% end %>
+
+<%= content_for :page_header do %>
+    <div style="border: none;margin-top:20px;" class="span16">
+      <%= image_tag('biscuit.png') %>
+
+      <% if !current_user %>
+          <div style="text-align: right;color: #556b2f;font-size: 20px;font-weight: bold;margin-right: 30px;" class="pull-right">
+            <br/>
+            <a href="#" data-controls-modal="sign_up_form" data-backdrop="static" class="large btn primary ">Create your
+              Team</a>
+          </div>
+      <% else %>
+          <div style="text-align: right;color: #556b2f;font-size: 20px;font-weight: bold;margin-right: 20px;" class="pull-right">
+            <br/>
+            <a href="#" data-controls-modal="sign_up_form" data-backdrop="static" class="large btn primary ">Start the Simulation</a>
+          </div>
+      <% end %>
+
+    </div>
+<% end %>
+
+<div class="row">
+  <div class="span16">
+    <div class="span5 pull-left">
+      <div style="text-align: left;border-radius: 10px"><%= image_tag("illustration.jpg", :size => "250x350", :style=>"border-radius:10px") %></div>
+
+      <div id="sign_up_form" class="modal hide fade">
+        <div class="modal-header">
+          <a href="#" class="close"> &times; </a>
+
+          <h3>Create your team</h3>
+        </div>
+        <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
+            <div class="modal-body">
+              <div class="clearfix">
+                <%= f.label "Team Name" %>
+                <div class="input">  <%= f.text_field :username %></div>
+                <br/>
+                <%= f.label :email %>
+                <div class="input">  <%= f.email_field :email %></div>
+                <br/>
+                <%= f.label :password %>
+                <div class="input">  <%= f.password_field :password %></div>
+                <br/>
+                <%= f.label :password_confirmation %>
+                <div class="input"><br/> <%= f.password_field :password_confirmation %></div>
+                <br/>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <div>
+                <%= f.submit "Sign up", :class=>"btn primary" %>
+              </div>
+            </div>
+        <% end %>
+      </div>
+    </div>
+    <div class="span11 pull-right">
+      <div class="row">
+        <!--<div class="span10">-->
+        <p>
+
+        <h2>Welcome to Bizcuit</h2>
+        </p>
+        Bizcuit is an entrepreneurship strategy simulation centred around the
+        fundamentals of launching a new product and scaling
+        it up.
+        You are tasked with starting a biscuit manufacturing company and making it successful over a period of 5
+        years.
+        To get ahead, you would need to effectively analyze data, target desired consumer segments, balance the
+        demands
+        of
+        your employees & distributors while using advertising to generate sales.
+        <br/>
+        <br/>
+        Can you differentiate your brand in a competitive market enough to get ahead of the pack ?
+        <!--</div>-->
+        <br/>
+        <br/>
+        <br/>
+      </div>
+      <div class="row">
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+
+        <span class="pull-right" style="margin-right:20px">A simulation by</span>
+        <br/>
+        <%= image_tag "logo_with_name.png", :size => "195x60", :class => "pull-right", :style => "margin-right:20px; margin-top:-5px" %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- /container -->
+
