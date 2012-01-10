@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 Bizkit10::Application.configure do
+=======
+Bizcuit::Application.configure do
+>>>>>>> 6f40216cdbc8f3abaac369514e50586976e8a46a
   # Settings specified here will take precedence over those in config/application.rb
 
   # In the development environment your application's code is reloaded on
@@ -15,6 +19,10 @@ Bizkit10::Application.configure do
 
   # Don't care if the mailer can't send
   config.action_mailer.raise_delivery_errors = false
+<<<<<<< HEAD
+=======
+  config.action_mailer.default_url_options = { :host => 'localhost:3000' }
+>>>>>>> 6f40216cdbc8f3abaac369514e50586976e8a46a
 
   # Print deprecation notices to the Rails logger
   config.active_support.deprecation = :log

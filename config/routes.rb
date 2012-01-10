@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Bizkit10::Application.routes.draw do
   resources :rounds
 
@@ -30,6 +31,12 @@ match 'participation_management'=>'welcome#participation_management'
   match 'set_simulation'=>'welcome#set_simulation'
   match 'remove_student_from_list/:user_id'=>'welcome#remove_student_from_list'
 
+=======
+Bizcuit::Application.routes.draw do
+  devise_for :users
+
+  get "welcome/index"
+>>>>>>> 6f40216cdbc8f3abaac369514e50586976e8a46a
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
@@ -80,7 +87,11 @@ match 'participation_management'=>'welcome#participation_management'
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
+<<<<<<< HEAD
    root :to => 'welcome#index'
+=======
+  root :to => 'welcome#index'
+>>>>>>> 6f40216cdbc8f3abaac369514e50586976e8a46a
 
   # See how all your routes lay out with "rake routes"
 

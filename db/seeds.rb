@@ -5,6 +5,7 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+<<<<<<< HEAD
 
 Type.create!(:name=>"Single", :price=>100)
 Type.create!(:name=>"Filled ", :price=>100)
@@ -91,3 +92,5 @@ Advertising.create!(:name=>"Sponsorships")
 
 
 
+=======
+>>>>>>> 6f40216cdbc8f3abaac369514e50586976e8a46a

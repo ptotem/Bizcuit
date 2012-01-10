@@ -4,4 +4,8 @@
 
 require File.expand_path('../config/application', __FILE__)
 
+<<<<<<< HEAD
 Bizkit10::Application.load_tasks
+=======
+Bizcuit::Application.load_tasks
+>>>>>>> 6f40216cdbc8f3abaac369514e50586976e8a46a

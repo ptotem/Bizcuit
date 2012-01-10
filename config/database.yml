@@ -1,16 +1,37 @@
+<<<<<<< HEAD
+=======
+# MySQL.  Versions 4.1 and 5.0 are recommended.
+# 
+# Install the MYSQL driver
+#   gem install mysql2
+#
+# Ensure the MySQL gem is defined in your Gemfile
+#   gem 'mysql2'
+#
+# And be sure to use new-style password hashing:
+#   http://dev.mysql.com/doc/refman/5.0/en/old-client.html
+>>>>>>> 6f40216cdbc8f3abaac369514e50586976e8a46a
 development:
   adapter: mysql2
   encoding: utf8
   reconnect: false
+<<<<<<< HEAD
   database: bizkit_development
   pool: 5
   username: root
   password: p20o20e13
+=======
+  database: Bizcuit_development
+  pool: 5
+  username: root
+  password: 19loki76
+>>>>>>> 6f40216cdbc8f3abaac369514e50586976e8a46a
   socket: /var/run/mysqld/mysqld.sock
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
+<<<<<<< HEAD
 test: &test
   adapter: mysql2
   encoding: utf8
@@ -19,12 +40,23 @@ test: &test
   pool: 5
   username: root
   password: p20o20e13
+=======
+test:
+  adapter: mysql2
+  encoding: utf8
+  reconnect: false
+  database: Bizcuit_test
+  pool: 5
+  username: root
+  password: 19loki76
+>>>>>>> 6f40216cdbc8f3abaac369514e50586976e8a46a
   socket: /var/run/mysqld/mysqld.sock
 
 production:
   adapter: mysql2
   encoding: utf8
   reconnect: false
+<<<<<<< HEAD
   database: bizkit_production
   pool: 5
   username: root
@@ -35,3 +67,10 @@ production:
 
 cucumber:
   <<: *test
+=======
+  database: Bizcuit_production
+  pool: 5
+  username: root
+  password: 19loki76
+  socket: /var/run/mysqld/mysqld.sock
+>>>>>>> 6f40216cdbc8f3abaac369514e50586976e8a46a

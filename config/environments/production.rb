@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 Bizkit10::Application.configure do
+=======
+Bizcuit::Application.configure do
+>>>>>>> 6f40216cdbc8f3abaac369514e50586976e8a46a
   # Settings specified here will take precedence over those in config/application.rb
 
   # Code is not reloaded between requests

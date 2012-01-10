@@ -11,6 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(:version => 20120108054511) do
 
   create_table "active_rounds", :force => true do |t|
@@ -203,6 +204,9 @@ ActiveRecord::Schema.define(:version => 20120108054511) do
     t.datetime "updated_at"
     t.float    "price"
   end
+=======
+ActiveRecord::Schema.define(:version => 20120104100236) do
+>>>>>>> 6f40216cdbc8f3abaac369514e50586976e8a46a
 
   create_table "users", :force => true do |t|
     t.string   "email",                                 :default => "", :null => false
@@ -215,6 +219,7 @@ ActiveRecord::Schema.define(:version => 20120108054511) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
+<<<<<<< HEAD
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "username"
@@ -225,6 +230,16 @@ ActiveRecord::Schema.define(:version => 20120108054511) do
     t.boolean  "student"
     t.boolean  "facilitator"
     t.integer  "institute_id"
+=======
+    t.string   "username"
+    t.boolean  "superadmin"
+    t.boolean  "admin"
+    t.boolean  "facilitator"
+    t.boolean  "student"
+    t.boolean  "guest"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+>>>>>>> 6f40216cdbc8f3abaac369514e50586976e8a46a
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

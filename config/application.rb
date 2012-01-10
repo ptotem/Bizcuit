@@ -9,7 +9,11 @@ if defined?(Bundler)
   # Bundler.require(:default, :assets, Rails.env)
 end
 
+<<<<<<< HEAD
 module Bizkit10
+=======
+module Bizcuit
+>>>>>>> 6f40216cdbc8f3abaac369514e50586976e8a46a
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers

@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   # Setup accessible (or protected) attributes for your model
+<<<<<<< HEAD
   attr_accessible :email, :password, :password_confirmation, :remember_me
   has_many :facilitator_group_users
   has_many :facilitator_groups ,:through => :facilitator_group_users
@@ -57,4 +58,7 @@ class User < ActiveRecord::Base
 
     end
   end
+=======
+  attr_accessible :email, :password, :password_confirmation, :remember_me, :username, :superadmin, :admin, :facilitator, :student, :guest
+>>>>>>> 6f40216cdbc8f3abaac369514e50586976e8a46a
 end

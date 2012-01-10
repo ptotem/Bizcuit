@@ -4,5 +4,15 @@
  * the top of the compiled file, but it's generally better to create a new file per style scope.
  *= require_self
  *= require twitter/bootstrap
+<<<<<<< HEAD
  *= require_tree . 
 */
+=======
+ *= require_directory .
+ *= require gritter
+*/
+
+a {
+    color: #556b2f;
+}
+>>>>>>> 6f40216cdbc8f3abaac369514e50586976e8a46a
